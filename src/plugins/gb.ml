@@ -85,15 +85,10 @@ module Intensity = struct
     | Some v -> Fmt.pf ppf "%i gCO2/kWh" v
     | None -> Fmt.pf ppf "None"
 
-
   let pp ppf t =
-    Fmt.pf ppf
-      "period: %a@.forecast: %a@.actual: %a@.index: %s@."
-      Period.pp t.period 
-      pp_gco2
-      (Some t.forecast)
-      pp_gco2
-      t.actual (index_to_string t.index)
+    Fmt.pf ppf "period: %a@.forecast: %a@.actual: %a@.index: %s@." Period.pp
+      t.period pp_gco2 (Some t.forecast) pp_gco2 t.actual
+      (index_to_string t.index)
 end
 
 module Factors = struct
@@ -122,20 +117,28 @@ let json_headers =
 let tls_config =
   Mirage_crypto_rng_unix.initialize ();
   let null ?ip:_ ~host:_ _certs = Ok None in
-  Tls.Config.client ~authenticator:null ()      (* todo: TOFU *)
+  Tls.Config.client ~authenticator:null () (* todo: TOFU *)
 
 let get_json ~net (base, resource) =
   match Net.getaddrinfo_stream ~service:"https" net base with
   | [] -> failwith "Host resolution failed"
   | stream :: _ ->
-  Switch.run @@ fun sw ->
-  let conn = Net.connect ~sw net stream in
-  let conn = Tls_eio.Tls_flow.client_of_flow tls_config ?host:(Domain_name.of_string_exn base |> Domain_name.host |> Result.to_option) conn in
-  let resp =
-    Client.get ~headers:json_headers ~conn ("https://" ^ base, None) resource
-  in
-  let s = Client.read_fixed resp in
-  Ezjsonm.value_from_string s |> fun v -> Ezjsonm.find v [ "data" ]
+      Switch.run @@ fun sw ->
+      let conn = Net.connect ~sw net stream in
+      let conn =
+        Tls_eio.Tls_flow.client_of_flow tls_config
+          ?host:
+            (Domain_name.of_string_exn base
+            |> Domain_name.host |> Result.to_option)
+          conn
+      in
+      let resp =
+        Client.get ~headers:json_headers ~conn
+          ("https://" ^ base, None)
+          resource
+      in
+      let s = Client.read_fixed resp in
+      Ezjsonm.value_from_string s |> fun v -> Ezjsonm.find v [ "data" ]
 
 let get_intensity net =
   get_json ~net Endpoints.(base, intensity)
@@ -143,7 +146,7 @@ let get_intensity net =
   |> List.hd
 
 let get_intensity_period ~period:(from, to_) net =
-  get_json ~net @@ Endpoints.(base, intensity_from ~from to_)
+  (get_json ~net @@ Endpoints.(base, intensity_from ~from to_))
   |> Ezjsonm.get_list Intensity.of_json
 
 (*---------------------------------------------------------------------------
