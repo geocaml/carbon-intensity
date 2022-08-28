@@ -19,11 +19,11 @@ The API provides geographic-specific services, which allow you to exploit more f
 <!-- $MDX non-deterministic=output -->
 ```ocaml
 # Eio_main.run @@ fun env ->
-  Carbon.Gb.get_intensity env
+  Carbon.Gb.get_intensity env#net
   |> Eio.traceln "%a" Carbon.Gb.Intensity.pp;;
-+period: 2022-07-13T16:30Z - 2022-07-13T17:00Z
-+forecast: 224 gCO2/kWh
-+actual: 220 gCO2/kWh
++period: 2022-08-28T17:30Z - 2022-08-28T18:00Z
++forecast: 255 gCO2/kWh
++actual: None
 +index: high
 +
 - : unit = ()

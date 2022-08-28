@@ -1,4 +1,4 @@
-(vendored_dirs ocaml-cohttp)
+(vendored_dirs ocaml-cohttp piaf)
 
 (mdx
  (packages carbon)

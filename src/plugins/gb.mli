@@ -53,9 +53,9 @@ module Factors : sig
   type t
 end
 
-val get_intensity : Eio.Stdenv.t -> Intensity.t
+val get_intensity : Eio.Net.t -> Intensity.t
 
 val get_intensity_period :
   period:Ptime.t * [ `Fw24 | `Fw48 | `Pt24 | `To of Ptime.t ] ->
-  Eio.Stdenv.t ->
+  Eio.Net.t ->
   Intensity.t list

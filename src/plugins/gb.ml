@@ -8,9 +8,9 @@ open Cohttp_eio
 type t = unit
 
 module Endpoints = struct
-  let ( // ) a b = Uri.of_string (Uri.to_string a ^ "/" ^ b)
-  let base = Uri.of_string "https://api.carbonintensity.org.uk"
-  let intensity = base // "intensity"
+  let ( // ) a b = a ^ "/" ^ b
+  let base = "api.carbonintensity.org.uk"
+  let intensity = "/intensity"
 
   let intensity_from ~from t =
     let from = Ptime.to_rfc3339 from in
@@ -81,12 +81,14 @@ module Intensity = struct
         | _ -> invalid_arg "JSON has malformed intensity object")
     | _ -> invalid_arg "JSON does not have keys `from' and `to'"
 
+  let pp_gco2 ppf = function
+    | Some v -> Fmt.pf ppf "%i gCO2/kWh" v
+    | None -> Fmt.pf ppf "None"
+
   let pp ppf t =
-    Fmt.pf ppf
-      "period: %a@.forecast: %i gCO2/kWh@.actual: %a gCO2/kWh@.index: %s@."
-      Period.pp t.period t.forecast
-      Fmt.(option int)
-      t.actual (index_to_string t.index)
+    Fmt.pf ppf "period: %a@.forecast: %a@.actual: %a@.index: %s@." Period.pp
+      t.period pp_gco2 (Some t.forecast) pp_gco2 t.actual
+      (index_to_string t.index)
 end
 
 module Factors = struct
@@ -112,26 +114,39 @@ let json_headers =
   Http.Header.of_list
     [ ("Accept", "application/json"); ("Host", "api.carbonintensity.org.uk") ]
 
-let get_json ~env uri =
-  let host = Option.get @@ Uri.host uri in
-  let stream = Dns.get_addr host in
-  let resp =
-    Switch.run @@ fun sw ->
-    Client.get ~headers:json_headers env sw (`Tcp (stream, 443)) uri
-  in
-  match Client.read_fixed resp with
-  | Some b ->
-      let s = Bytes.to_string b in
-      Ezjsonm.value_from_string s |> fun v -> Ezjsonm.find v [ "data" ]
-  | None -> failwith "Failed to read body"
+let tls_config =
+  Mirage_crypto_rng_unix.initialize ();
+  let null ?ip:_ ~host:_ _certs = Ok None in
+  Tls.Config.client ~authenticator:null () (* todo: TOFU *)
 
-let get_intensity env =
-  get_json ~env Endpoints.intensity
+let get_json ~net (base, resource) =
+  match Net.getaddrinfo_stream ~service:"https" net base with
+  | [] -> failwith "Host resolution failed"
+  | stream :: _ ->
+      Switch.run @@ fun sw ->
+      let conn = Net.connect ~sw net stream in
+      let conn =
+        Tls_eio.Tls_flow.client_of_flow tls_config
+          ?host:
+            (Domain_name.of_string_exn base
+            |> Domain_name.host |> Result.to_option)
+          conn
+      in
+      let resp =
+        Client.get ~headers:json_headers ~conn
+          ("https://" ^ base, None)
+          resource
+      in
+      let s = Client.read_fixed resp in
+      Ezjsonm.value_from_string s |> fun v -> Ezjsonm.find v [ "data" ]
+
+let get_intensity net =
+  get_json ~net Endpoints.(base, intensity)
   |> Ezjsonm.get_list Intensity.of_json
   |> List.hd
 
-let get_intensity_period ~period:(from, to_) env =
-  get_json ~env @@ Endpoints.intensity_from ~from to_
+let get_intensity_period ~period:(from, to_) net =
+  (get_json ~net @@ Endpoints.(base, intensity_from ~from to_))
   |> Ezjsonm.get_list Intensity.of_json
 
 (*---------------------------------------------------------------------------

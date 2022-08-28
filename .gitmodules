@@ -1,3 +1,0 @@
-[submodule "ocaml-cohttp"]
-	path = ocaml-cohttp
-	url = https://github.com/patricoferris/ocaml-cohttp
