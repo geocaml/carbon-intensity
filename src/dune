@@ -1,6 +1,6 @@
 (library
  (name carbon)
  (public_name carbon)
- (libraries ptime ezjsonm eio.unix cohttp-eio))
+ (libraries ptime ezjsonm eio.unix mirage-crypto-rng.unix tls cohttp-eio))
 
 (include_subdirs unqualified)
