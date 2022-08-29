@@ -27,7 +27,6 @@ end
 
 module Intensity : sig
   type t
-  (** *)
 
   type index = [ `Very_low | `Low | `Moderate | `High | `Very_high ]
   (** The index is a measure of the Carbon Intensity represented as a scale *)
