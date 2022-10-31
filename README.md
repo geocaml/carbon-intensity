@@ -13,6 +13,8 @@ The API provides geographic-specific services, which allow you to exploit more f
 
  - Great Britain:
     + https://www.carbonintensity.org.uk/
+ - Misc:
+    + https://www.co2signal.com (requires API key)
 
 ### Usage
 
