@@ -37,7 +37,7 @@ build: [
 ]
 dev-repo: "git+https://github.com/geocaml/carbon-intensity.git"
 pin-depends: [
-  "http.dev" "git+https://github.com/mirage/ocaml-cohttp#ce5f271b69fe42471ede858c5b8ce8203e3c14ad"
-  "cohttp-eio.dev" "git+https://github.com/mirage/ocaml-cohttp#ce5f271b69fe42471ede858c5b8ce8203e3c14ad"
-  "ISO3166.dev" "git+https://github.com/geocaml/ISO3166#425ce3790f8e0a94ad31dd3ff6033463d645b3db"
+  [ "http.dev" "git+https://github.com/mirage/ocaml-cohttp#ce5f271b69fe42471ede858c5b8ce8203e3c14ad" ]
+  [ "cohttp-eio.dev" "git+https://github.com/mirage/ocaml-cohttp#ce5f271b69fe42471ede858c5b8ce8203e3c14ad" ]
+  [ "ISO3166.dev" "git+https://github.com/geocaml/ISO3166#425ce3790f8e0a94ad31dd3ff6033463d645b3db" ]
 ]
