@@ -6,7 +6,7 @@
   ezjsonm
   eio.unix
   mirage-crypto-rng.unix
-  tls
+  tls-eio
   cohttp-eio
   uri
   ISO3166))

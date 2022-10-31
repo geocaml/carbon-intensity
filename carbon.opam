@@ -11,7 +11,7 @@ depends: [
   "cohttp-eio"
   "ezjsonm"
   "ptime"
-  "tls"
+  "tls-eio"
   "mirage-crypto-rng"
   "ISO3166"
   "mdx" {with-test}
