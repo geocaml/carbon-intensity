@@ -20,7 +20,7 @@ The API provides geographic-specific services, which allow you to exploit more f
 
 A very simple use of the region specific API for Great Britain only requires the user to provide Eio's network capability.
 
-<!-- $MDX non-deterministic=output -->
+<!-- $MDX skip -->
 ```ocaml
 # Eio_main.run @@ fun env ->
   Carbon.Gb.get_intensity env#net
@@ -35,7 +35,7 @@ A very simple use of the region specific API for Great Britain only requires the
 
 Some APIs require more configuration, for example an access token. In order to use them you will need to construct a configuration and pass this into any calls that are made. For example:
 
-<!-- $MDX non-deterministic=output -->
+<!-- $MDX skip -->
 ```ocaml
 # Eio_main.run @@ fun env ->
   let token = Eio.Path.(load (env#fs / ".co2-token")) in
