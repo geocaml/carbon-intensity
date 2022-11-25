@@ -21,7 +21,6 @@
 (** {2 Low-level API Access} *)
 
 module Gb = Gb
-
 module Co2_signal = Co2_signal
 
 (** {2 Generic Interface}*)
