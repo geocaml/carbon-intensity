@@ -1,4 +1,4 @@
-(** {! Energy Mix for Great Britain }
+(** {1 Energy Mix for Great Britain }
     
   This plugin provides a client for interacting with {{: https://www.carbonintensity.org.uk/} the carbon-intensity} API.
   This includes intelligent forecasting models as well as current and past energy mixes.
