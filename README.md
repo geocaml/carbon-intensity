@@ -1,13 +1,9 @@
 carbon-intensity
 ----------------
 
-*Status: WIP & Experimental*
-
 Carbon Intensity is an OCaml client for querying various energy grid APIs to understand the energy generation mix. This enables programs like schedulers, energy monitors etc. to have a better understanding of their carbon intensity.
 
 The API provides geographic-specific services, which allow you to exploit more fine-grained APIs and then a generic `Intensity` interface for a global-oriented API.
-
-*This library uses an experimental Cohttp client with Eio*.
 
 ### Integrated APIs
 
