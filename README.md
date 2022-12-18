@@ -19,6 +19,7 @@ A very simple use of the region specific API for Great Britain only requires the
 <!-- $MDX skip -->
 ```ocaml
 # Eio_main.run @@ fun env ->
+  Mirage_crypto_rng_eio.run (module Mirage_crypto_rng.Fortuna) env @@ fun _ ->
   Carbon.Gb.get_intensity env#net
   |> Eio.traceln "%a" Carbon.Gb.Intensity.pp;;
 +period: 2022-08-28T17:30Z - 2022-08-28T18:00Z
@@ -34,6 +35,7 @@ Some APIs require more configuration, for example an access token. In order to u
 <!-- $MDX skip -->
 ```ocaml
 # Eio_main.run @@ fun env ->
+  Mirage_crypto_rng_eio.run (module Mirage_crypto_rng.Fortuna) env @@ fun _ ->
   let token = Eio.Path.(load (env#fs / ".co2-token")) in
   let t = Carbon.Co2_signal.v token in
   Carbon.Co2_signal.get_intensity ~net:env#net ~country_code:`FR t

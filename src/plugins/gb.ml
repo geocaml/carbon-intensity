@@ -2,7 +2,9 @@
    Copyright (c) 2022 Geocaml Developers
    Distributed under the ISC license, see terms at the end of the file.
   ---------------------------------------------------------------------------*)
-type t = unit
+type t = { net : Eio.Net.t }
+
+let v net = { net }
 
 module Endpoints = struct
   let ( // ) a b = a ^ "/" ^ b
@@ -111,13 +113,13 @@ let headers =
   Http.Header.of_list
     [ ("Accept", "application/json"); ("Host", "api.carbonintensity.org.uk") ]
 
-let get_intensity net =
-  Http_client.get_json ~headers ~net Endpoints.(base, intensity)
+let get_intensity t =
+  Http_client.get_json ~headers ~net:t.net Endpoints.(base, intensity)
   |> Ezjsonm.get_list Intensity.of_json
   |> List.hd
 
-let get_intensity_period ~period:(from, to_) net =
-  (Http_client.get_json ~headers ~net
+let get_intensity_period ~period:(from, to_) t =
+  (Http_client.get_json ~headers ~net:t.net
   @@ Endpoints.(base, intensity_from ~from to_))
   |> Ezjsonm.get_list Intensity.of_json
 

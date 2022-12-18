@@ -7,6 +7,9 @@
 type t
 (** A configuration value for accessing the data *)
 
+val v : Eio.Net.t -> t
+(** Creates a new configuration value with network access. *)
+
 (** {2 Data types} *)
 
 module Period : sig
@@ -52,9 +55,9 @@ module Factors : sig
   type t
 end
 
-val get_intensity : Eio.Net.t -> Intensity.t
+val get_intensity : t -> Intensity.t
 
 val get_intensity_period :
   period:Ptime.t * [ `Fw24 | `Fw48 | `Pt24 | `To of Ptime.t ] ->
-  Eio.Net.t ->
+  t ->
   Intensity.t list

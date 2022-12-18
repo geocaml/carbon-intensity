@@ -5,8 +5,8 @@ module Intensity = struct
   module Gb = struct
     type t = Gb.t
 
-    let get_intensity ~net (_ : Gb.t) =
-      let i = Gb.get_intensity net in
+    let get_intensity (t : Gb.t) =
+      let i = Gb.get_intensity t in
       Gb.Intensity.actual i
   end
 
@@ -16,8 +16,8 @@ module Intensity = struct
   struct
     type t = Co2_signal.t
 
-    let get_intensity ~net t =
-      let i = Co2_signal.get_intensity ~net ~country_code:C.country t in
+    let get_intensity t =
+      let i = Co2_signal.get_intensity ~country_code:C.country t in
       Some (Co2_signal.Intensity.intensity i)
   end
 end
