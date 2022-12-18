@@ -1,6 +1,6 @@
-type t = { token : string }
+type t = { token : string; net : Eio.Net.t }
 
-let v token = { token }
+let v ~api_key net = { token = api_key; net }
 
 module Endpoints = struct
   let base = "api.co2signal.com"
@@ -38,14 +38,16 @@ module Intensity = struct
       t.datetime pp_co2 t.carbon_intensity t.fossil_fuel_percentage
 end
 
-let get_intensity ~net ~country_code t =
+let get_intensity ~country_code t =
   let code = ISO3166.alpha2_to_string country_code in
   let headers = headers t in
   let resource =
     Endpoints.uri ~path:"latest" ~query:[ ("countryCode", [ code ]) ]
     |> Uri.path_and_query
   in
-  let data = Http_client.get_json ~net ~headers Endpoints.(base, resource) in
+  let data =
+    Http_client.get_json ~net:t.net ~headers Endpoints.(base, resource)
+  in
   match
     ( J.find data [ "datetime" ],
       J.find data [ "carbonIntensity" ],
