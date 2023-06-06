@@ -7,8 +7,9 @@ license: "MIT"
 homepage: "https://github.com/geocaml/carbon-intensity"
 bug-reports: "https://github.com/geocaml/carbon-intensity/issues"
 depends: [
-  "dune" {>= "2.9"}
-  "cohttp-eio"
+  "dune" {>= "3.0"}
+  "eio"
+  "cohttp-eio" {>= "6.0.0~alpha1"}
   "ezjsonm"
   "ptime"
   "tls-eio"
