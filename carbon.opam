@@ -8,6 +8,7 @@ homepage: "https://github.com/geocaml/carbon-intensity"
 bug-reports: "https://github.com/geocaml/carbon-intensity/issues"
 depends: [
   "dune" {>= "3.0"}
+  "eio"
   "cohttp-eio" {>= "6.0.0~alpha1"}
   "ezjsonm"
   "ptime"

@@ -13,6 +13,12 @@ let get_json ?headers ~net (host, resource) =
         (Domain_name.of_string_exn host |> Domain_name.host |> Result.to_option)
       conn
   in
-  let resp = Client.get ?headers ~conn ~host:("https://" ^ host) (object method net = net end) resource in
+  let resp =
+    Client.get ?headers ~conn ~host:("https://" ^ host)
+      (object
+         method net = net
+      end)
+      resource
+  in
   let s = Client.read_fixed resp in
   Ezjsonm.value_from_string s |> fun v -> Ezjsonm.find v [ "data" ]
