@@ -9,6 +9,8 @@ The API provides geographic-specific services, which allow you to exploit more f
 
  - Great Britain:
     + https://www.carbonintensity.org.uk/
+ - France:
+    + https://www.rte-france.com/eco2mix
  - Misc:
     + https://www.co2signal.com (requires API key)
 

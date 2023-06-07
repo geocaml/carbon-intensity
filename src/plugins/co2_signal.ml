@@ -47,6 +47,7 @@ let get_intensity ~country_code t =
   in
   let data =
     Http_client.get_json ~net:t.net ~headers Endpoints.(base, resource)
+    |> J.path [ "data" ]
   in
   match
     ( J.find data [ "datetime" ],

@@ -115,12 +115,14 @@ let headers =
 
 let get_intensity t =
   Http_client.get_json ~headers ~net:t.net Endpoints.(base, intensity)
+  |> J.path [ "data" ]
   |> Ezjsonm.get_list Intensity.of_json
   |> List.hd
 
 let get_intensity_period ~period:(from, to_) t =
   (Http_client.get_json ~headers ~net:t.net
   @@ Endpoints.(base, intensity_from ~from to_))
+  |> J.path [ "data" ]
   |> Ezjsonm.get_list Intensity.of_json
 
 (*---------------------------------------------------------------------------

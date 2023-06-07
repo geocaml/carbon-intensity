@@ -21,12 +21,14 @@
 (** {2 Low-level API Access} *)
 
 module Gb = Gb
+module Fr = Fr
 module Co2_signal = Co2_signal
 
 (** {2 Generic Interface}*)
 
 module Intensity : sig
   module Gb : Carbon_intf.Intensity with type t = Gb.t
+  module Fr : Carbon_intf.Intensity with type t = Fr.t
 
   module Co2_signal (C : sig
     val country : ISO3166.alpha2

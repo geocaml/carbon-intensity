@@ -21,4 +21,4 @@ let get_json ?headers ~net (host, resource) =
       resource
   in
   let s = Client.read_fixed resp in
-  Ezjsonm.value_from_string s |> fun v -> Ezjsonm.find v [ "data" ]
+  Ezjsonm.value_from_string s
