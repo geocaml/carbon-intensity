@@ -13,7 +13,6 @@ depends: [
   "ezjsonm"
   "ptime"
   "tls-eio"
-  "ISO3166"
   "uri"
   "mirage-crypto-rng-eio" {with-test}
   "mdx" {with-test}

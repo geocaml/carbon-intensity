@@ -1,0 +1,1 @@
+Zones are from https://api.electricitymap.org/v3/zones downloaded on 20-06-2023
