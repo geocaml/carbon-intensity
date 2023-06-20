@@ -3,7 +3,8 @@ let co2_signal env =
   | exception Eio.Io _ -> ()
   | api_key ->
       let co2_signal = Carbon.Co2_signal.v ~api_key env#net in
-      Carbon.Co2_signal.get_intensity ~country_code:`IN co2_signal
+      Carbon.Co2_signal.get_intensity ~zone:Carbon.Co2_signal.Zone.dk_dk1
+        co2_signal
       |> Eio.traceln "INDIA:@.%a" Carbon.Co2_signal.Intensity.pp
 
 let gb env =

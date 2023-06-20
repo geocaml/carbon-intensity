@@ -3,4 +3,14 @@
  (public_name carbon)
  (libraries ptime ezjsonm eio.unix tls-eio cohttp-eio uri ISO3166))
 
-(include_subdirs unqualified)
+(rule
+ (deps ./include/zones.json ./include/co2_signal_zones.exe)
+ (targets zone.ml zone.mli)
+ (action
+  (progn
+   (with-stdout-to
+    zone.ml
+    (run ./include/co2_signal_zones.exe impl))
+   (with-stdout-to
+    zone.mli
+    (run ./include/co2_signal_zones.exe intf)))))
