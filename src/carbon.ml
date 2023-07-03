@@ -18,13 +18,13 @@ module Intensity = struct
   end
 
   module Co2_signal (C : sig
-    val country : ISO3166.alpha2
+    val zone : Zone.t
   end) =
   struct
     type t = Co2_signal.t
 
     let get_intensity t =
-      let i = Co2_signal.get_intensity ~country_code:C.country t in
+      let i = Co2_signal.get_intensity ~zone:C.zone t in
       Some (Co2_signal.Intensity.intensity i)
   end
 end
