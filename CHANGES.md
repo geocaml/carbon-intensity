@@ -1,3 +1,3 @@
-## 0.1.0~alpha1 (2022-11-25) Cambridge
+## 0.1.0 (2023-07-03) Cambridge
 
-- Initial alpha release
+- Initial release
