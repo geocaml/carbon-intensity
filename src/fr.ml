@@ -1,6 +1,6 @@
-type t = { net : Eio.Net.t }
+type t = { net : [ `Generic ] Eio.Net.ty Eio.Net.t }
 
-let v net = { net }
+let v net = { net :> [ `Generic ] Eio.Net.ty Eio.Net.t }
 let url_host = "odre.opendatasoft.com"
 let url_path = "/api/explore/v2.0/catalog/datasets/eco2mix-national-tr/records"
 let encode_value = Stringext.replace_all ~pattern:" " ~with_:"%20"

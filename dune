@@ -1,6 +1,11 @@
-(vendored_dirs ocaml-cohttp piaf)
-
 (mdx
- (packages carbon)
- (preludes docs/prelude.txt)
+ (package carbon)
+ (libraries
+  eio
+  fmt
+  eio_main
+  eio.unix
+  mirage-crypto-rng
+  mirage-crypto-rng-eio
+  carbon)
  (files README.md))

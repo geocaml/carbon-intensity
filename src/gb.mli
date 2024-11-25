@@ -7,7 +7,7 @@
 type t
 (** A configuration value for accessing the data *)
 
-val v : Eio.Net.t -> t
+val v : _ Eio.Net.t -> t
 (** Creates a new configuration value with network access. *)
 
 (** {2 Data types} *)
