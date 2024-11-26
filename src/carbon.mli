@@ -30,7 +30,7 @@ module Intensity : sig
   module Gb : Carbon_intf.Intensity with type t = Gb.t
   module Fr : Carbon_intf.Intensity with type t = Fr.t
 
-  module Co2_signal (C : sig
+  module Co2_signal (_ : sig
     val zone : Co2_signal.Zone.t
   end) : Carbon_intf.Intensity with type t = Co2_signal.t
 

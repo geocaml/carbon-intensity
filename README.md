@@ -22,29 +22,14 @@ A very simple use of the region specific API for Great Britain only requires the
 ```ocaml
 # Eio_main.run @@ fun env ->
   Mirage_crypto_rng_eio.run (module Mirage_crypto_rng.Fortuna) env @@ fun _ ->
-  Carbon.Gb.get_intensity env#net
+  let gb = Carbon.Gb.v env#net in
+  Carbon.Gb.get_intensity gb
   |> Eio.traceln "%a" Carbon.Gb.Intensity.pp;;
-+period: 2022-08-28T17:30Z - 2022-08-28T18:00Z
-+forecast: 255 gCO2/kWh
-+actual: None
-+index: high
++period: 2024-11-25T21:00Z - 2024-11-25T21:30Z
++forecast: 99 gCO2/kWh
++actual: 92 gCO2/kWh
++index: low
 +
 - : unit = ()
 ```
 
-Some APIs require more configuration, for example an access token. In order to use them you will need to construct a configuration and pass this into any calls that are made. For example:
-
-<!-- $MDX skip -->
-```ocaml
-# Eio_main.run @@ fun env ->
-  Mirage_crypto_rng_eio.run (module Mirage_crypto_rng.Fortuna) env @@ fun _ ->
-  let token = Eio.Path.(load (env#fs / ".co2-token")) in
-  let t = Carbon.Co2_signal.v token in
-  Carbon.Co2_signal.get_intensity ~net:env#net ~country_code:`FR t
-  |> Eio.traceln "%a" Carbon.Co2_signal.Intensity.pp;;
-+country: FR
-+datetime: 2022-08-29T11:00:00.000Z
-+intensity: 99 gCO2/kWh
-+fossil fuel percentage: 15.230000
-- : unit = ()
-```

@@ -1,8 +1,9 @@
 module Zone = Zone
 
-type t = { token : string; net : Eio.Net.t }
+type t = { token : string; net : [ `Generic ] Eio.Net.ty Eio.Net.t }
 
-let v ~api_key net = { token = api_key; net }
+let v ~api_key net =
+  { token = api_key; net :> [ `Generic ] Eio.Net.ty Eio.Net.t }
 
 module Endpoints = struct
   let base = "api.co2signal.com"

@@ -1,7 +1,7 @@
 (library
  (name carbon)
  (public_name carbon)
- (libraries ptime ezjsonm eio.unix tls-eio cohttp-eio uri))
+ (libraries ptime ca-certs ezjsonm eio.unix tls-eio cohttp-eio uri))
 
 (rule
  (deps ./include/zones.json ./include/co2_signal_zones.exe)
@@ -14,3 +14,8 @@
    (with-stdout-to
     zone.mli
     (run ./include/co2_signal_zones.exe intf)))))
+
+(env
+ (dev
+  (flags
+   (:standard -w -69))))

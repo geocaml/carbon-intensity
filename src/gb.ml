@@ -2,9 +2,9 @@
    Copyright (c) 2022 Geocaml Developers
    Distributed under the ISC license, see terms at the end of the file.
   ---------------------------------------------------------------------------*)
-type t = { net : Eio.Net.t }
+type t = { net : [ `Generic ] Eio.Net.ty Eio.Net.t }
 
-let v net = { net }
+let v net = { net :> [ `Generic ] Eio.Net.ty Eio.Net.t }
 
 module Endpoints = struct
   let ( // ) a b = a ^ "/" ^ b
